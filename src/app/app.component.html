@@ -8,9 +8,11 @@
     placeholder="Search your country!"
     [formControl]="searchForm"
   />
+  <button>Sort</button>
   <hr />
-  <button class="btn">Previous page</button>
-  <button class="btn">Next page</button>
+  <button class="btn" type="button">Previous page</button>
+
+  <button class="btn" type="button">Next page</button>
 
   <article class="flags__table">
     <a href="#"> </a>
@@ -26,11 +28,15 @@
         </tr>
       </thead>
 
+      <!-- Check if it has child elements -->
+
       <tbody id="contentTable">
         <tr
           *ngFor="
             let country of (countries | async)!
               | searchCountry: searchForm.value
+              | sortingCountries
+              | paginate: { itemsPerPage: 10, currentPage: 1 }
           "
         >
           <!--This is in th (below) *ngFor="let country of countries | async" -->
@@ -43,9 +49,9 @@
           </th>
           <th>{{ country.capital }}</th>
           <th>{{ country.region }}</th>
-          <!-- TODO Make it a string add later stringify -->
+          <!-- TODO Make it a string add later maybe use stringify -->
           <th style="word-break: break-word">
-            {{ country.languages | json }}
+            {{ country.languages }}
           </th>
           <th>{{ country.population }}</th>
           <th>{{ country.flag }}</th>
